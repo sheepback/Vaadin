@@ -29,6 +29,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 	
 	private ChatPresenter cp;
 	
+	private String username;
+	
 	Logger logger = Logger.getLogger("LobbyPresenter");
 
 	public LobbyPresenter() {
@@ -45,18 +47,17 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 		getUI().getPage().setTitle("Lobby");
 
 		// Get the user name from the session
-		String username = String.valueOf(getSession().getAttribute("user"));
-
+		String[] user = getSession().getAttribute("user").toString().split("@");
+		username = user[0];
+		
 		// And show the username
 		display.getDisplay().text.setValue("Hello " + username);
 	}
 	
 	public void bind(){
 		display.getDisplay().logout.addClickListener(new Button.ClickListener() {
-
 			@Override
 			public void buttonClick(ClickEvent event) {
-
 				// "Logout" the user
 				logger.log(Level.INFO,"logge "+getSession().getAttribute("user")+" aus...");
 				getSession().setAttribute("user", null);
@@ -65,14 +66,13 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 			}
 		});
 		
-		cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
+			cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-
-				cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+"\n"+getSession().getAttribute("user")+": "+cp.getChatView().getDisplay().getTextField().getValue());
+				cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+"\n"+username+": "+cp.getChatView().getDisplay().getTextField().getValue());
 				cp.getChatView().getDisplay().getTextField().clear();	
 			}
 			
-		});
+		}); 
 	}
 }

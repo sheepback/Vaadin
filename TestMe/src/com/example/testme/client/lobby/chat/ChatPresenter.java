@@ -1,13 +1,9 @@
 package com.example.testme.client.lobby.chat;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.example.testme.client.Presenter;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+
 
 /**
  * @author Alexander Thomas
@@ -20,12 +16,15 @@ public class ChatPresenter extends CustomComponent implements Presenter{
 		ChatView getDisplay();
 	}
 	
+	public final static String NAME = "ChatPresenter";
+	
 	Display display;
+	
 	String username;
-	Logger logger = Logger.getLogger("ChatPresenter");
-
+	
 	public ChatPresenter(){
 		this.display = new ChatView();
+		setSizeFull();
 		bind();
 	}
 	

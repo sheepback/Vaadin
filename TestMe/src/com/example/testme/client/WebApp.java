@@ -6,6 +6,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import com.example.testme.client.lobby.LobbyPresenter;
+import com.example.testme.client.lobby.chat.ChatPresenter;
 import com.example.testme.client.login.LoginPresenter;
 
 @SuppressWarnings("serial")
@@ -31,6 +32,11 @@ public class WebApp extends UI {
 		// Add the main view of the application
 		//
 		getNavigator().addView(LobbyPresenter.NAME, LobbyPresenter.class);
+		
+		//
+		// Add Chat to the application
+		//
+		getNavigator().addView(ChatPresenter.NAME, ChatPresenter.class);
 		//
 		// We use a view change handler to ensure the user is always redirected
 		// to the login view if the user is not logged in.
