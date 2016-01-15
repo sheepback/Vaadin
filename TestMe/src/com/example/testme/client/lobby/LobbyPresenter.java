@@ -36,8 +36,9 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 	public LobbyPresenter() {
 		this.display = new LobbyView();
 		cp = new ChatPresenter();
-		VerticalLayout viewLayout = new VerticalLayout( cp.getChatView().getDisplay().getViewLayout(), display.getDisplay().viewLayout);
-		setCompositionRoot(viewLayout);
+		VerticalLayout bindLayout = new VerticalLayout( cp.getChatView().getDisplay().getViewLayout(), display.getDisplay().viewLayout);
+		bindLayout.setSizeFull();
+		setCompositionRoot(bindLayout);
 		setSizeFull();
 		bind();
 	}
@@ -45,11 +46,9 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		getUI().getPage().setTitle("Lobby");
-
 		// Get the user name from the session
 		String[] user = getSession().getAttribute("user").toString().split("@");
 		username = user[0];
-		
 		// And show the username
 		display.getDisplay().text.setValue("Hello " + username);
 	}
@@ -74,5 +73,6 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 			}
 			
 		}); 
+			
 	}
 }

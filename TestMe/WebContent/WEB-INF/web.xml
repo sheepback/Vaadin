@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app
-  id="WebApp_ID" version="3.1"
-  xmlns="http://java.sun.com/xml/ns/j2ee" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+<web-app id="WebApp_ID" version="3.1"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
 
-  <servlet>
-    <servlet-name>MyServlet</servlet-name>
-    <servlet-class>
-        com.vaadin.server.VaadinServlet
-    </servlet-class>
+	<listener>
+		<listener-class>com.example.testme.server.http.HttpSessionCollector
+		</listener-class>
+	</listener>
 
-    <init-param>
-      <param-name>UI</param-name>
-      <param-value>com.example.testme.client.WebApp</param-value>
-    </init-param>   
-    <!-- Enable server push -->
-    <init-param>
-      <param-name>pushmode</param-name>
-      <param-value>automatic</param-value>
-    </init-param>
-    <async-supported>true</async-supported>
-  </servlet>
+	<servlet>
+		<servlet-name>MyServlet</servlet-name>
+		<servlet-class>
+			com.vaadin.server.VaadinServlet
+		</servlet-class>
+		<init-param>
+			<param-name>UI</param-name>
+			<param-value>com.example.testme.client.WebApp</param-value>
+		</init-param>
+		<!-- Enable server push -->
+		<init-param>
+			<param-name>pushmode</param-name>
+			<param-value>automatic</param-value>
+		</init-param>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>closeIdleSessions</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
 
-  <servlet-mapping>
-    <servlet-name>MyServlet</servlet-name>
-    <url-pattern>/*</url-pattern>
-  </servlet-mapping>
+	<context-param>
+		<param-name>heartbeatInterval</param-name>
+		<param-value>120</param-value>
+	</context-param>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<servlet-mapping>
+		<servlet-name>MyServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -30,7 +30,7 @@ public class ChatPresenter extends CustomComponent implements Presenter{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
+		//Never entered cause LobbyPresenter is ParentView
 	}
 
 	@Override
