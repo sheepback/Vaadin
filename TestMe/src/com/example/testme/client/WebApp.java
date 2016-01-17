@@ -8,9 +8,12 @@ import com.vaadin.ui.UI;
 import com.example.testme.client.lobby.LobbyPresenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
 import com.example.testme.client.login.LoginPresenter;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.ui.Transport;
+
 
 @SuppressWarnings("serial")
-@Push
+@Push(value = PushMode.AUTOMATIC, transport = Transport.WEBSOCKET)
 public class WebApp extends UI {
 
 	@Override

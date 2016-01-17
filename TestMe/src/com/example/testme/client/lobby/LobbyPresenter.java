@@ -5,7 +5,12 @@ import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
+import com.example.testme.server.broadcast.Broadcaster;
+import com.example.testme.server.broadcast.Broadcaster.BroadcastListener;
+import com.vaadin.annotations.Push;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button.ClickEvent;
@@ -16,8 +21,9 @@ import com.vaadin.ui.VerticalLayout;
  * @author Alexander Thomas
  * @date 23:31:46 07.01.2016
  */
+@Push(value = PushMode.AUTOMATIC, transport = Transport.WEBSOCKET)
 @SuppressWarnings("serial")
-public class LobbyPresenter extends CustomComponent implements Presenter {
+public class LobbyPresenter extends CustomComponent implements Presenter, BroadcastListener {
 	
 	public interface Display{
 		LobbyView getDisplay();
@@ -31,12 +37,14 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 	
 	private String username;
 	
+	private VerticalLayout bindLayout;
+	
 	Logger logger = Logger.getLogger("LobbyPresenter");
 
 	public LobbyPresenter() {
 		this.display = new LobbyView();
 		cp = new ChatPresenter();
-		VerticalLayout bindLayout = new VerticalLayout( cp.getChatView().getDisplay().getViewLayout(), display.getDisplay().viewLayout);
+		bindLayout = new VerticalLayout( cp.getChatView().getDisplay().getViewLayout(), display.getDisplay().viewLayout);
 		bindLayout.setSizeFull();
 		setCompositionRoot(bindLayout);
 		setSizeFull();
@@ -45,6 +53,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		Broadcaster.register(this);
 		getUI().getPage().setTitle("Lobby");
 		// Get the user name from the session
 		String[] user = getSession().getAttribute("user").toString().split("@");
@@ -68,11 +77,28 @@ public class LobbyPresenter extends CustomComponent implements Presenter {
 			cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
 			@Override
 			public void buttonClick(ClickEvent event) {
-				cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+"\n"+username+": "+cp.getChatView().getDisplay().getTextField().getValue());
-				cp.getChatView().getDisplay().getTextField().clear();	
+				Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
+				cp.getChatView().getDisplay().getTextField().clear();
 			}
-			
 		}); 
-			
 	}
+	
+	// Must also unregister when the UI expires    
+    @Override
+    public void detach() {
+        Broadcaster.unregister(this);
+        super.detach();
+    }
+
+    @Override
+    public void receiveBroadcast(final String message) {
+        // Must lock the session to execute logic safely
+        getUI().access(new Runnable() {
+            @Override
+            public void run() {
+                // Show it somehow
+            	cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+message);
+            }
+        });
+    }
 }
