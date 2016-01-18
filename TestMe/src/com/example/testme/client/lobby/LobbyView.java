@@ -16,14 +16,23 @@ import com.vaadin.ui.themes.Reindeer;
 public class LobbyView implements Display, View {
 
 	Label text;
+	Label ip;
+	Label clientInfo;
+	Label isTouch;
+	Label locale;
 	Button logout;
 	Label impr;
 	VerticalLayout viewLayout;
 
 	LobbyView() {
 		text = new Label();
+		ip = new Label();
+		clientInfo = new Label();
+		isTouch = new Label();
+		locale = new Label();
 		logout = new Button("Logout");
-		VerticalLayout fields = new VerticalLayout(text, logout);
+		VerticalLayout fields = new VerticalLayout(text, ip, clientInfo, isTouch, locale, logout);
+		fields.setComponentAlignment(logout, Alignment.MIDDLE_CENTER);
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();

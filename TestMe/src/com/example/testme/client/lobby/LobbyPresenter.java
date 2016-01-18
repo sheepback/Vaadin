@@ -9,6 +9,8 @@ import com.example.testme.server.broadcast.Broadcaster;
 import com.example.testme.server.broadcast.Broadcaster.BroadcastListener;
 import com.vaadin.annotations.Push;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
+import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.Button;
@@ -39,6 +41,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	
 	private VerticalLayout bindLayout;
 	
+	WebBrowser webBrowser;
+	
 	Logger logger = Logger.getLogger("LobbyPresenter");
 
 	public LobbyPresenter() {
@@ -58,8 +62,16 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		// Get the user name from the session
 		String[] user = getSession().getAttribute("user").toString().split("@");
 		username = user[0];
-		// And show the username
+		// And show the username and userInformation
 		display.getDisplay().text.setValue("Hello " + username);
+		webBrowser = Page.getCurrent().getWebBrowser();
+		display.getDisplay().ip.setValue("IP: "+webBrowser.getAddress());
+		display.getDisplay().clientInfo.setValue("Client Information: "+webBrowser.getBrowserApplication());
+		display.getDisplay().isTouch.setValue("Touch Device: "+webBrowser.isTouchDevice());
+		display.getDisplay().locale.setValue("Land: "+webBrowser.getLocale().toString());
+		//Broadcast that the user logged in
+		Broadcaster.broadcast(username, true);
+		cp.getChatView().getDisplay().login(Broadcaster.userlist, username);
 	}
 	
 	public void bind(){
@@ -69,6 +81,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 				// "Logout" the user
 				logger.log(Level.INFO,"logge "+getSession().getAttribute("user")+" aus...");
 				getSession().setAttribute("user", null);
+				//Broadcast the user logged out
+				Broadcaster.broadcast(username, false);
 				// Refresh this view, should redirect to login view
 				getUI().getNavigator().navigateTo(NAME);
 			}
@@ -89,16 +103,37 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
         Broadcaster.unregister(this);
         super.detach();
     }
-
+    
     @Override
     public void receiveBroadcast(final String message) {
         // Must lock the session to execute logic safely
-        getUI().access(new Runnable() {
-            @Override
-            public void run() {
-                // Show it somehow
-            	cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+message);
-            }
-        });
+    		getUI().access(new Runnable() {
+    			@Override
+    			public void run() {
+    				cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+message);
+    			}
+    		});
+    	}
+
+    @Override
+    public void receiveBroadcast(final String message, final boolean logged) {
+    	if(logged==true){
+        // Must lock the session to execute logic safely
+    		getUI().access(new Runnable() {
+    			@Override
+    			public void run() {
+    				cp.getChatView().getDisplay().addUser(message);
+    			}
+    		});
+    	}
+    	else{
+    		 // Must lock the session to execute logic safely
+    		getUI().access(new Runnable() {
+    			@Override
+    			public void run() {
+    				cp.getChatView().getDisplay().deleteUser(message);
+    			}
+    		});
+    	}
     }
 }

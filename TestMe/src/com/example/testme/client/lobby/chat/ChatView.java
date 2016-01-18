@@ -1,5 +1,8 @@
 package com.example.testme.client.lobby.chat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.testme.client.View;
 import com.example.testme.client.lobby.chat.ChatPresenter.Display;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -7,6 +10,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -21,10 +25,16 @@ public class ChatView implements Display, View{
 	VerticalLayout viewLayout;
 	TextArea lab;
 	TextField tb;
+	VerticalLayout userlist;
 	Button sendButton;
+	List<Label> labelList = new ArrayList<Label>();
 	
 	public ChatView(){
 		lab = new TextArea("ChatMessages:");
+		lab.setHeight("400px");
+		lab.setWidth("600px");
+		userlist = new VerticalLayout(new Label("Logged User: "));
+		HorizontalLayout chat = new HorizontalLayout(lab, userlist);
 		
 		tb = new TextField();
 		sendButton = new Button("Send");
@@ -32,7 +42,7 @@ public class ChatView implements Display, View{
 		
 		HorizontalLayout hl = new HorizontalLayout(tb, sendButton);
 		
-		VerticalLayout fields = new VerticalLayout(lab, hl);
+		VerticalLayout fields = new VerticalLayout(chat, hl);
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();
@@ -62,5 +72,34 @@ public class ChatView implements Display, View{
 	
 	public TextArea getTextArea(){
 		return lab;
+	}
+	
+	public VerticalLayout getUserlist(){
+		return userlist;
+	}
+	
+	public void addUser(String username){
+		Label l = new Label(username);
+		labelList.add(l);
+		userlist.addComponent(l);
+	}
+	
+	public void deleteUser(String username){
+		for(Label n: labelList){
+			if(n.getValue().equals(username)){
+				userlist.removeComponent(n);
+			}
+		}
+	}
+	
+	public void login(List<String> userlist, String username){
+		for(String n : userlist){
+			if(n.equals(username)){
+				continue;
+			}
+			Label l = new Label(n);
+			labelList.add(l);
+			this.userlist.addComponent(l);
+		}
 	}
 }
