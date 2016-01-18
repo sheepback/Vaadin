@@ -7,7 +7,6 @@ import com.vaadin.navigator.View;
  * @date 22:02:27 07.01.2016
  */
 public interface Presenter extends View {
-	
 	void bind();
 	
 }

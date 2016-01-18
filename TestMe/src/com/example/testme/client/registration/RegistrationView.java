@@ -1,14 +1,13 @@
-package com.example.testme.client.login;
+package com.example.testme.client.registration;
 
 import com.example.testme.client.View;
-import com.example.testme.client.login.LoginPresenter.Display;
+import com.example.testme.client.registration.RegistrationPresenter.Display;
 import com.example.testme.client.validator.PasswordValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -17,65 +16,52 @@ import com.vaadin.ui.themes.Reindeer;
 
 /**
  * @author Alexander Thomas
- * @date 13:40:44 28.12.2015
+ * @date 18.01.2016
  */
-
-public class LoginView implements Display, View{
-
-	final TextField user;
+public class RegistrationView implements Display, View{
+	
+	VerticalLayout viewLayout;
+	
+	final TextField email;
 
 	final PasswordField password;
 
-	final Button loginButton;
+	final Button reg;
 	
-	final Button regButton;
-
-	final Label impr;
-
-	final VerticalLayout viewLayout;
-
-
-	public LoginView() {
-		// Create the user input field
-		user = new TextField("User:");
-		user.setWidth("300px");
-		user.setRequired(true);
-		user.setInputPrompt("Your username (eg. joe@email.com)");
-		user.addValidator(new EmailValidator(
+	RegistrationView(){
+		//
+		//Explanations and Documentation in LoginView
+		//
+		email = new TextField("Your Email: ");
+		email.setWidth("300px");
+		email.setRequired(true);
+		email.setInputPrompt("Your username (eg. joe@email.com)");
+		email.addValidator(new EmailValidator(
 				"Username must be an email address"));
-		//user.setInvalidAllowed(false);
-
-		// Create the password input field
-		password = new PasswordField("Password:");
+		
+		password = new PasswordField("Your Password: ");
 		password.setWidth("300px");
 		password.addValidator(new PasswordValidator());
 		password.setRequired(true);
 		password.setValue("");
 		password.setNullRepresentation("");
-
-		// Create login button
-		loginButton = new Button("Login");
-		loginButton.setClickShortcut(KeyCode.ENTER);
 		
-		regButton = new Button("Registration");
+		reg = new Button("Registrate");
+		reg.setClickShortcut(KeyCode.ENTER);
 		
-		HorizontalLayout hz = new HorizontalLayout(loginButton, regButton);
-
-		// Add both to a panel
-		VerticalLayout fields = new VerticalLayout(user, password, hz);
-		fields.setCaption("Please login to access the application.");
+		VerticalLayout fields = new VerticalLayout(email, password, reg);
+		fields.setCaption("Please enter your Data for Registration.");
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();
 
-		impr = new Label("Copyright by Sh33pb4ck, Version 0.1 2016");
+		Label impr = new Label("Copyright by Sh33pb4ck, Version 0.1 2016");
 
 		VerticalLayout impressum = new VerticalLayout(impr);
 		impressum.setSpacing(true);
 		impressum.setMargin(new MarginInfo(true, true, true, false));
 		impressum.setSizeUndefined();
 		
-		// The view root layout
 		viewLayout = new VerticalLayout(fields, impressum);
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
 		viewLayout.setComponentAlignment(impressum, Alignment.BOTTOM_CENTER);
@@ -84,7 +70,7 @@ public class LoginView implements Display, View{
 	}
 
 	@Override
-	public LoginView getDisplay() {
+	public RegistrationView getDisplay() {
 		return this;
 	}
 

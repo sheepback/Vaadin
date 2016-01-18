@@ -8,6 +8,7 @@ import com.vaadin.ui.UI;
 import com.example.testme.client.lobby.LobbyPresenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
 import com.example.testme.client.login.LoginPresenter;
+import com.example.testme.client.registration.RegistrationPresenter;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.ui.Transport;
 
@@ -30,12 +31,14 @@ public class WebApp extends UI {
 		// The initial log view where the user can login to the application
 		//
 		getNavigator().addView(LoginPresenter.NAME, LoginPresenter.class);//
-
+		//
+		// Add Registration to the application
+		//
+		getNavigator().addView(RegistrationPresenter.NAME, RegistrationPresenter.class);
 		//
 		// Add the main view of the application
 		//
 		getNavigator().addView(LobbyPresenter.NAME, LobbyPresenter.class);
-		
 		//
 		// Add Chat to the application
 		//
@@ -48,6 +51,9 @@ public class WebApp extends UI {
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
+				if(event.getNewView() instanceof RegistrationPresenter){
+					return true;
+				}
 
 				// Check if a user has logged in
 				boolean isLoggedIn = getSession().getAttribute("user") != null;

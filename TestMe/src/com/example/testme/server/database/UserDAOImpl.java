@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import com.example.testme.server.database.exceptions.UserNotFoundException;
 
-
 /**
  * @author Alexander Thomas
  * @date 16:11:56 13.01.2016
@@ -64,6 +63,30 @@ public class UserDAOImpl implements UserDAO {
 			logger.log(Level.SEVERE, e.getMessage());
 		}
 		logger.log(Level.INFO, "Something went wrong...");
+		con.closeCon();
+		return false;
+	}
+	
+	@Override
+	public boolean create(String username, String pw){
+		Database con = new Database();
+		try {
+		PreparedStatement preparedStatement = con.getCon().prepareStatement("INSERT INTO test.user VALUES (?, ?)");
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, pw);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        con.closeCon();
+        return true;
+		}
+		catch(SQLException e){
+			logger.log(Level.SEVERE, e.getMessage());
+		}
+		catch(Exception e){
+			logger.log(Level.SEVERE, e.getMessage());
+		}
+		logger.log(Level.INFO, "Something went wrong...");
+        con.closeCon();
 		return false;
 	}
 }

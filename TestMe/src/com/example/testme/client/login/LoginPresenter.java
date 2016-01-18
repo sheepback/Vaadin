@@ -5,10 +5,12 @@ import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.LobbyPresenter;
+import com.example.testme.client.registration.RegistrationPresenter;
 import com.example.testme.server.database.UserDAOImpl;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 
 /**
@@ -43,11 +45,18 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 
 	}
 
-	// Validator for validating the passwords
-
 	@Override
 	public void bind() {
 		display.getDisplay().loginButton.addClickListener(this);
+		
+		display.getDisplay().regButton.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				getUI().getNavigator().navigateTo(RegistrationPresenter.NAME);
+			}
+			
+		});
 	}
 
 	@Override
@@ -66,8 +75,7 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 		String password = display.getDisplay().password.getValue();
 
 		//
-		// Validate username and password with database here. For examples sake
-		// I use a dummy username and password.
+		// Validate username and password with database here
 		//
 
 		UserDAOImpl user = new UserDAOImpl();
@@ -80,12 +88,11 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 
 			getUI().getNavigator().navigateTo(LobbyPresenter.NAME);
 
-		} else {
-
+		} 
+		else {
 			// Wrong password clear the password field and refocuses it
 			display.getDisplay().password.setValue(null);
 			display.getDisplay().password.focus();
-
 		}
 	}
 }
