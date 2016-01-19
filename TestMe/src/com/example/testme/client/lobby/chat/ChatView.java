@@ -31,7 +31,7 @@ public class ChatView implements Display, View{
 	
 	public ChatView(){
 		lab = new TextArea("ChatMessages:");
-		lab.setHeight("400px");
+		lab.setHeight("200px");
 		lab.setWidth("600px");
 		userlist = new VerticalLayout(new Label("Logged User: "));
 		HorizontalLayout chat = new HorizontalLayout(lab, userlist);
@@ -89,6 +89,14 @@ public class ChatView implements Display, View{
 			if(n.getValue().equals(username)){
 				userlist.removeComponent(n);
 			}
+		}
+	}
+	
+	public void login(List<String> userlist){
+		for(String n : userlist){
+			Label l = new Label(n);
+			labelList.add(l);
+			this.userlist.addComponent(l);
 		}
 	}
 	

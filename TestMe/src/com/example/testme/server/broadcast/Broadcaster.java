@@ -13,9 +13,9 @@ import java.util.concurrent.Executors;
  */
 @SuppressWarnings("serial")
 public class Broadcaster implements Serializable {
+	public static List<String> userid = new ArrayList<String>();
 	public static List<String> userlist = new ArrayList<String>();
-	static ExecutorService executorService = Executors
-			.newSingleThreadExecutor();
+	static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	public interface BroadcastListener {
 		void receiveBroadcast(String message);
@@ -42,17 +42,22 @@ public class Broadcaster implements Serializable {
 			});
 	}
 	
-	public static synchronized void broadcast(final String message, final boolean logged) {
+	public static synchronized void broadcast(final String id, final String message, final boolean logged) {
 		if(logged == true){
+			userid.add(id);
 			userlist.add(message);
 		}
 		else{
+			for(int i=0;i<userid.size();i++){
+				if(userid.get(i).equals(id)){
+					userid.remove(i);
+				}
+			}
 			for(int i=0;i<userlist.size();i++){
 				if(userlist.get(i).equals(message)){
 					userlist.remove(i);
 				}
 			}
-			userlist.remove(message);
 		}
 		for (final BroadcastListener listener : listeners)
 			executorService.execute(new Runnable() {

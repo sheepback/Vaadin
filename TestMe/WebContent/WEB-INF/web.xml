@@ -24,10 +24,10 @@
 			<param-value>automatic</param-value>
 		</init-param>
 		<async-supported>true</async-supported>
-		<init-param>
+		<!--  <init-param>
 			<param-name>closeIdleSessions</param-name>
 			<param-value>true</param-value>
-		</init-param>
+		</init-param> -->
 	</servlet>
 	
 	<context-param>
@@ -36,7 +36,7 @@
 	</context-param>
 	
 	<session-config>
-		<session-timeout>10</session-timeout>
+		<session-timeout>30</session-timeout>
 	</session-config>
 	
 	<servlet-mapping>

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.LobbyPresenter;
 import com.example.testme.client.registration.RegistrationPresenter;
+import com.example.testme.server.broadcast.Broadcaster;
 import com.example.testme.server.database.UserDAOImpl;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -29,6 +30,8 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 
 	private Display display;
 	
+	private String usernameSession;
+	
 	Logger logger = Logger.getLogger("LoginPresenter");
 
 	public LoginPresenter() {
@@ -42,7 +45,7 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 	public void enter(ViewChangeEvent event) {
 		// focus the username field when user arrives to the login view
 		getUI().getPage().setTitle("Login");
-
+		// Get the user name from the session
 	}
 
 	@Override
@@ -85,7 +88,9 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 			getSession().setAttribute("user", username);
 			logger.log(Level.INFO,"Logge "+username+" ein");
 			// Navigate to main view
-
+			String[] userSession = username.split("@");
+			usernameSession = userSession[0];
+			Broadcaster.broadcast(getUI().getSession().getSession().getId(),usernameSession, true);
 			getUI().getNavigator().navigateTo(LobbyPresenter.NAME);
 
 		} 

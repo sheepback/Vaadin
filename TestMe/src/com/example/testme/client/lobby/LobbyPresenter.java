@@ -70,8 +70,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		display.getDisplay().isTouch.setValue("Touch Device: "+webBrowser.isTouchDevice());
 		display.getDisplay().locale.setValue("Land: "+webBrowser.getLocale().toString());
 		//Broadcast that the user logged in
-		Broadcaster.broadcast(username, true);
-		cp.getChatView().getDisplay().login(Broadcaster.userlist, username);
+		cp.getChatView().getDisplay().login(Broadcaster.userlist);
 	}
 	
 	public void bind(){
@@ -82,7 +81,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 				logger.log(Level.INFO,"logge "+getSession().getAttribute("user")+" aus...");
 				getSession().setAttribute("user", null);
 				//Broadcast the user logged out
-				Broadcaster.broadcast(username, false);
+				Broadcaster.broadcast(getUI().getSession().getSession().getId(),username, false);
 				// Refresh this view, should redirect to login view
 				getUI().getNavigator().navigateTo(NAME);
 			}
