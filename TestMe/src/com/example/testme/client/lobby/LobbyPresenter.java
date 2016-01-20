@@ -31,7 +31,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		LobbyView getDisplay();
 	}
 
-	public static final String NAME = "";
+	public static final String NAME = "lobbypresenter";
 	
 	private Display display;
 	
@@ -69,7 +69,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		display.getDisplay().clientInfo.setValue("Client Information: "+webBrowser.getBrowserApplication());
 		display.getDisplay().isTouch.setValue("Touch Device: "+webBrowser.isTouchDevice());
 		display.getDisplay().locale.setValue("Land: "+webBrowser.getLocale().toString());
-		//Broadcast that the user logged in
+		//Ask userlist for users who are logged in 
 		cp.getChatView().getDisplay().login(Broadcaster.userlist);
 	}
 	
@@ -116,6 +116,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 
     @Override
     public void receiveBroadcast(final String message, final boolean logged) {
+    	// When loggin in 
     	if(logged==true){
         // Must lock the session to execute logic safely
     		getUI().access(new Runnable() {
@@ -125,6 +126,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
     			}
     		});
     	}
+    	// When logging out
     	else{
     		 // Must lock the session to execute logic safely
     		getUI().access(new Runnable() {
