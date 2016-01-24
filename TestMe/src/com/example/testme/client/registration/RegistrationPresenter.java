@@ -26,7 +26,7 @@ public class RegistrationPresenter extends CustomComponent implements Presenter{
 	
 	private Display display;
 	
-	private Logger logger = Logger.getLogger("RegistrationPresenter");
+	Logger logger = Logger.getLogger("RegistrationPresenter");
 	
 	public RegistrationPresenter(){
 		this.display = new RegistrationView();

@@ -31,7 +31,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		LobbyView getDisplay();
 	}
 
-	public static final String NAME = "lobbypresenter";
+	public static final String NAME = "";
 	
 	private Display display;
 	

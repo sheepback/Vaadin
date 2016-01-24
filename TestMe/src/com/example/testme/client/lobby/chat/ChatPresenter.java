@@ -16,7 +16,7 @@ public class ChatPresenter extends CustomComponent implements Presenter{
 		ChatView getDisplay();
 	}
 	
-	public final static String NAME = "ChatPresenter";
+	public final static String NAME = "chat";
 	
 	Display display;
 	
@@ -39,7 +39,7 @@ public class ChatPresenter extends CustomComponent implements Presenter{
 	}
 	
 	public Display getChatView(){
-		return (ChatView)this.display;
+		return this.display;
 	}
 
 }

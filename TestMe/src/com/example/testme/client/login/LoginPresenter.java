@@ -43,9 +43,7 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 	}
 
 	public void enter(ViewChangeEvent event) {
-		// focus the username field when user arrives to the login view
 		getUI().getPage().setTitle("Login");
-		// Get the user name from the session
 	}
 
 	@Override

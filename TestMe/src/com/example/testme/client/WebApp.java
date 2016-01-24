@@ -16,21 +16,15 @@ import com.vaadin.shared.ui.ui.Transport;
 @SuppressWarnings("serial")
 @Push(value = PushMode.AUTOMATIC, transport = Transport.WEBSOCKET)
 public class WebApp extends UI {
-	
-	public WebApp(){
-		
-	}
 
 	@Override
 	protected void init(VaadinRequest request) {
-
 		getPage().setTitle("Welcome");
 		//
 		// Create a new instance of the navigator. The navigator will attach
 		// itself automatically to this view.
 		//
 		new Navigator(this, this);
-
 		//
 		// The initial log view where the user can login to the application
 		//
@@ -52,7 +46,6 @@ public class WebApp extends UI {
 		// to the login view if the user is not logged in.
 		//
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
-
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				if(event.getNewView() instanceof RegistrationPresenter){
@@ -74,7 +67,6 @@ public class WebApp extends UI {
 					// then cancel
 					return false;
 				}
-
 				return true;
 			}
 
