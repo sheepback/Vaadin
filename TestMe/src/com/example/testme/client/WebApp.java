@@ -16,6 +16,10 @@ import com.vaadin.shared.ui.ui.Transport;
 @SuppressWarnings("serial")
 @Push(value = PushMode.AUTOMATIC, transport = Transport.WEBSOCKET)
 public class WebApp extends UI {
+	
+	public WebApp(){
+		
+	}
 
 	@Override
 	protected void init(VaadinRequest request) {
