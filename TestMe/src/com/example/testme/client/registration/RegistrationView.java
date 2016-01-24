@@ -28,7 +28,7 @@ public class RegistrationView implements Display, View{
 
 	final Button reg;
 	
-	RegistrationView(){
+	public RegistrationView(){
 		//
 		//Explanations and Documentation in LoginView
 		//

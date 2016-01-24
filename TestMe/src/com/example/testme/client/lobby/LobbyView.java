@@ -24,7 +24,7 @@ public class LobbyView implements Display, View {
 	Label impr;
 	VerticalLayout viewLayout;
 
-	LobbyView() {
+	public LobbyView() {
 		text = new Label();
 		ip = new Label();
 		clientInfo = new Label();
