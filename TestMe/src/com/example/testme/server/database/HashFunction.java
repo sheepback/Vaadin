@@ -49,6 +49,7 @@ public class HashFunction {
 	 * Methode zur Erzeugung eines salts
 	 * @return formattedString
 	 */
+	@SuppressWarnings("static-access")
 	public static String getSalt() throws NoSuchAlgorithmException{
 		SecureRandom random = new SecureRandom().getInstance("SHA1PRNG");
 	    byte[] salt = new byte[16];

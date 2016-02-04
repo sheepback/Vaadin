@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 			PreparedStatement preparedStatement = con
 					.getCon()
 					.prepareStatement(
-							"SELECT * FROM test.user WHERE name = ? AND password = ?");
+							"SELECT * FROM vaadin.user WHERE name = ? AND password = ?");
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, hash);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -74,7 +74,7 @@ public class UserDAOImpl implements UserDAO {
 		Database con = new Database();
 		try {
 		String hash[] = HashFunction.finalHash(pw);
-		PreparedStatement preparedStatement = con.getCon().prepareStatement("INSERT INTO test.user VALUES (?, ?, ?)");
+		PreparedStatement preparedStatement = con.getCon().prepareStatement("INSERT INTO vaadin.user VALUES (?, ?, ?)");
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, hash[0]);
         preparedStatement.setString(3, hash[1]);
