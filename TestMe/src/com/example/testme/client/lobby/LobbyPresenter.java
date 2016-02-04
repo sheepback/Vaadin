@@ -91,7 +91,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 			//Send Messages
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(!(cp.getChatView().getDisplay().getTextField().equals(""))){
+				if(!(cp.getChatView().getDisplay().getTextField().getValue().equals(""))){
 					Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
 					cp.getChatView().getDisplay().getTextField().clear();
 				}
