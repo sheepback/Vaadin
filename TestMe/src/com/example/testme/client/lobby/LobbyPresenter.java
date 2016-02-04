@@ -87,11 +87,14 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 			}
 		});
 		
-			cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
+		cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
+			//Send Messages
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
-				cp.getChatView().getDisplay().getTextField().clear();
+				if(!(cp.getChatView().getDisplay().getTextField().equals(""))){
+					Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
+					cp.getChatView().getDisplay().getTextField().clear();
+				}
 			}
 		}); 
 	}
