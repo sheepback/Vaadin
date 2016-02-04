@@ -34,11 +34,11 @@ public class Database {
 	 * @return Connection
 	 */
 	private Connection getConnection() {
-		String url = "jdbc:mysql://duemmer.informatik.uni-oldenburg.de:45012/";
-		String db = "test";
+		String url = "jdbc:mysql://192.168.178.26:3306/";
+		String db = "vaadin";
 		String driver = "com.mysql.jdbc.Driver";
 		String user = "root";
-		String pass = "jrfruyg";
+		String pass = "barti";
 
 		try {
 			Class.forName(driver).newInstance();
