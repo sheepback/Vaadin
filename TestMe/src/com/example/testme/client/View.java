@@ -6,4 +6,6 @@ package com.example.testme.client;
  */
 public interface View {
 	
+	View getDisplay();
+	
 }

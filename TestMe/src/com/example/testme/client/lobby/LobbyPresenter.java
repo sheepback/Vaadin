@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
+import com.example.testme.client.lobby.forum.ForumPresenter;
 import com.example.testme.server.broadcast.Broadcaster;
 import com.example.testme.server.broadcast.Broadcaster.BroadcastListener;
 import com.vaadin.annotations.Push;
@@ -37,6 +38,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	
 	private ChatPresenter cp;
 	
+	private ForumPresenter fp;
+	
 	private String username;
 	
 	private TabSheet tabsheet;
@@ -48,13 +51,13 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	public LobbyPresenter() {
 		this.display = new LobbyView();
 		cp = new ChatPresenter();
-		//TODO
-		/*
-		 * ForumPresenter persistance with DB!
-		 */
+		fp = new ForumPresenter();
+	
+		//add Presenter to TabSheet
 		tabsheet = new TabSheet();
 		tabsheet.addTab(display.getDisplay().viewLayout, "Lobby");
 		tabsheet.addTab(cp.getChatView().getDisplay().getViewLayout(),"Chat");
+		tabsheet.addTab(fp.getForumView().getDisplay().getViewLayout(), "Forum");
 		tabsheet.setSizeFull();
 		setCompositionRoot(tabsheet);
 		setSizeFull();
