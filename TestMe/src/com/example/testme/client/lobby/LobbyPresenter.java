@@ -17,7 +17,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.TabSheet;
 
 /**
  * @author Alexander Thomas
@@ -39,8 +39,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	
 	private String username;
 	
-	private VerticalLayout bindLayout;
-	
+	private TabSheet tabsheet;
+		
 	WebBrowser webBrowser;
 	
 	Logger logger = Logger.getLogger("LobbyPresenter");
@@ -48,9 +48,15 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	public LobbyPresenter() {
 		this.display = new LobbyView();
 		cp = new ChatPresenter();
-		bindLayout = new VerticalLayout( cp.getChatView().getDisplay().getViewLayout(), display.getDisplay().viewLayout);
-		bindLayout.setSizeFull();
-		setCompositionRoot(bindLayout);
+		//TODO
+		/*
+		 * ForumPresenter persistance with DB!
+		 */
+		tabsheet = new TabSheet();
+		tabsheet.addTab(display.getDisplay().viewLayout, "Lobby");
+		tabsheet.addTab(cp.getChatView().getDisplay().getViewLayout(),"Chat");
+		tabsheet.setSizeFull();
+		setCompositionRoot(tabsheet);
 		setSizeFull();
 		bind();
 	}
