@@ -34,7 +34,7 @@ public class Database {
 	 * @return Connection
 	 */
 	private Connection getConnection() {
-		String url = "jdbc:mysql://192.168.178.26:3306/";
+		String url = "jdbc:mysql://localhost:3306/";
 		String db = "vaadin";
 		String driver = "com.mysql.jdbc.Driver";
 		String user = "root";

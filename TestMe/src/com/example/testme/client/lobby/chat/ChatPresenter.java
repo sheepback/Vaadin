@@ -35,7 +35,7 @@ public class ChatPresenter extends CustomComponent implements Presenter{
 
 	@Override
 	public void bind() {
-	
+		
 	}
 	
 	public Display getChatView(){
