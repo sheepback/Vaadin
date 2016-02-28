@@ -21,30 +21,31 @@ import com.vaadin.ui.themes.Reindeer;
  */
 public class ForumView implements Display, View {
 
-	List<Field> fields = new ArrayList<Field>();
+	private List<Field> fields = new ArrayList<Field>();
 
-	List<HorizontalLayout> hz = new ArrayList<HorizontalLayout>();
+	private List<HorizontalLayout> hz = new ArrayList<HorizontalLayout>();
 
-	VerticalLayout viewLayout;
+	private VerticalLayout viewLayout;
 	
-	HorizontalLayout statusbar;
+	private HorizontalLayout statusbar;
 	
-	Label money;
+	private Label money;
 
-	Logger logger = Logger.getLogger("ForumView");
+	private Logger logger = Logger.getLogger("ForumView");
 
 	public ForumView() {
-		money = new Label("10");
+		money = new Label("Credit: 10");
+		money.addStyleName("h1");
 		statusbar = new HorizontalLayout(money);
-		
 		viewLayout = new VerticalLayout(statusbar);
+		viewLayout.setComponentAlignment(statusbar, Alignment.TOP_RIGHT);
 		for (int j = 0; j < 3; j++) {
 			hz.add(new HorizontalLayout());
 			viewLayout.addComponent(hz.get(j));
 			viewLayout.setComponentAlignment(hz.get(j), Alignment.MIDDLE_CENTER);
 		}
 		for (int i = 0; i < 12; i++) {
-			fields.add(new Field(""));
+			fields.add(new Field("", i));
 			fields.get(i).setIcon(new ThemeResource("icons/gamepic.png"));
 			if (i < 4) {
 				hz.get(0).addComponent(fields.get(i));
@@ -74,7 +75,12 @@ public class ForumView implements Display, View {
 		return fields;
 	}
 	
-	public void setMoney(String money){
-		this.money.setValue(money);
+	public void setMoney(int i){
+		this.money.setValue("Credit: "+i);
+	}
+
+	public int getMoney() {
+		String[] split = this.money.getValue().split("\\s+");
+		return Integer.valueOf(split[1]);
 	}
 }

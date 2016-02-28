@@ -5,7 +5,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
+import com.example.testme.client.lobby.forum.game.Field;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 
 /**
@@ -39,7 +42,17 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 
 	@Override
 	public void bind() {
-		
+		for(Field f : display.getDisplay().getFields()){
+			f.addClickListener(new ClickListener(){
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					display.getDisplay().setMoney(display.getDisplay().getMoney()+1);
+				}
+				
+			}
+			);
+		}
 	}
 
 	public Display getForumView() {
