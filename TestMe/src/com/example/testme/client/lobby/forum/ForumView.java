@@ -44,7 +44,7 @@ public class ForumView implements Display, View {
 			viewLayout.setComponentAlignment(hz.get(j), Alignment.MIDDLE_CENTER);
 		}
 		for (int i = 0; i < 12; i++) {
-			fields.add(new Field("Feld " + i));
+			fields.add(new Field(""));
 			fields.get(i).setIcon(new ThemeResource("icons/gamepic.png"));
 			if (i < 4) {
 				hz.get(0).addComponent(fields.get(i));
