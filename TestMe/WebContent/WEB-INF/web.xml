@@ -5,8 +5,7 @@
       http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
 
 	<listener>
-		<listener-class>com.example.testme.server.http.HttpSessionCollector
-		</listener-class>
+		<listener-class>com.example.testme.server.http.HttpSessionCollector</listener-class>
 	</listener>
 
 	<servlet>
