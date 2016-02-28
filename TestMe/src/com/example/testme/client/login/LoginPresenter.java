@@ -9,6 +9,7 @@ import com.example.testme.client.registration.RegistrationPresenter;
 import com.example.testme.server.broadcast.Broadcaster;
 import com.example.testme.server.database.UserDAOImpl;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -44,6 +45,15 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 
 	public void enter(ViewChangeEvent event) {
 		getUI().getPage().setTitle("Login");
+		//DIREKT ZUGRIFF, DA ENTWICKLER
+		if(Page.getCurrent().getWebBrowser().getAddress().equals("192.168.178.39")||Page.getCurrent().getWebBrowser().getAddress().equals("0:0:0:0:0:0:0:1") || Page.getCurrent().getWebBrowser().getAddress().equals("127.0.0.1")){
+			String username = "admin";
+			getSession().setAttribute("user", username);
+			logger.log(Level.INFO,"Logge "+username+" ein");
+			// Navigate to main view
+			Broadcaster.broadcast(getUI().getSession().getSession().getId(),username, true);
+			getUI().getNavigator().navigateTo(LobbyPresenter.NAME);
+		}
 	}
 
 	@Override
@@ -80,7 +90,7 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 		//
 
 		UserDAOImpl user = new UserDAOImpl();
-		if ((username.equals("admin@test.de") && password.equals("pass123")) || user.login(username, password) == true) {
+		if (user.login(username, password) == true) {
 
 			// Store the current user in the service session
 			getSession().setAttribute("user", username);
