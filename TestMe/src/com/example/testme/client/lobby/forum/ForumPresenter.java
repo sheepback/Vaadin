@@ -1,15 +1,11 @@
 package com.example.testme.client.lobby.forum;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
-import com.example.testme.client.lobby.forum.game.Field;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 
 /**
@@ -25,7 +21,6 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 
 	Display display;
 
-	List<Field> fields = new ArrayList<Field>();
 
 	File file;
 
@@ -45,11 +40,6 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 	@Override
 	public void bind() {
 		
-		for (int i=0;i<10;i++) {
-			fields.add(new Field("Feld "+i));
-			this.display.getDisplay().viewLayout.addComponent(fields.get(i));
-			this.display.getDisplay().viewLayout.setComponentAlignment(fields.get(i), Alignment.MIDDLE_CENTER);
-		}
 	}
 
 	public Display getForumView() {

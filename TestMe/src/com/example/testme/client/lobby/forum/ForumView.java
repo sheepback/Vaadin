@@ -1,7 +1,13 @@
 package com.example.testme.client.lobby.forum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.testme.client.View;
 import com.example.testme.client.lobby.forum.ForumPresenter.Display;
+import com.example.testme.client.lobby.forum.game.Field;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
@@ -11,10 +17,21 @@ import com.vaadin.ui.themes.Reindeer;
  */
 public class ForumView implements Display, View{
 	
+	List<Field> fields = new ArrayList<Field>();
+	
 	VerticalLayout viewLayout;
+	
+	HorizontalLayout hz = new HorizontalLayout();
 			
 	public ForumView(){
-		viewLayout = new VerticalLayout();
+		
+		for (int i=0;i<10;i++) {
+			fields.add(new Field("Feld "+i));
+			hz.addComponent(fields.get(i));
+			hz.setComponentAlignment(fields.get(i), Alignment.MIDDLE_CENTER);
+		}
+		viewLayout = new VerticalLayout(hz);
+		viewLayout.setComponentAlignment(hz, Alignment.MIDDLE_CENTER);
 		viewLayout.setStyleName(Reindeer.LAYOUT_BLACK);
 		viewLayout.setSizeFull();
 	}
@@ -26,5 +43,9 @@ public class ForumView implements Display, View{
 	
 	public VerticalLayout getViewLayout(){
 		return this.viewLayout;
+	}
+	
+	public List<Field> getFields(){
+		return fields;
 	}
 }
