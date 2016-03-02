@@ -66,11 +66,11 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Broadcaster.register(this);
 		getUI().getPage().setTitle("Lobby");
 		// Get the user name from the session
 		String[] user = getSession().getAttribute("user").toString().split("@");
 		username = user[0];
+		Broadcaster.register(this, username);
 		// And show the username and userInformation
 		display.getDisplay().text.setValue("Hello " + username);
 		webBrowser = Page.getCurrent().getWebBrowser();
@@ -100,7 +100,13 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 			//Send Messages
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(!(cp.getChatView().getDisplay().getTextField().getValue().equals(""))){
+				if(cp.getChatView().getDisplay().getTextField().getValue().startsWith("@")){
+					String[] splitter = cp.getChatView().getDisplay().getTextField().getValue().split("@");
+					splitter=splitter[1].split("\\s+");
+					Broadcaster.whisper(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n", splitter[0], username);
+					cp.getChatView().getDisplay().getTextField().clear();
+				}
+				else if(!(cp.getChatView().getDisplay().getTextField().getValue().equals(""))){
 					Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
 					cp.getChatView().getDisplay().getTextField().clear();
 				}

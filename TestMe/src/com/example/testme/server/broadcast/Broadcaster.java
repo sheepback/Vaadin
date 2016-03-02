@@ -2,8 +2,10 @@ package com.example.testme.server.broadcast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,10 +24,13 @@ public class Broadcaster implements Serializable {
 		void receiveBroadcast(String message, boolean logged);
 	}
 
-	private static LinkedList<BroadcastListener> listeners = new LinkedList<BroadcastListener>();
+	//private static LinkedList<BroadcastListener> listeners = new LinkedList<BroadcastListener>();
+	private static Map<BroadcastListener, String> listeners = new HashMap<BroadcastListener, String>();
 
-	public static synchronized void register(BroadcastListener listener) {
-		listeners.add(listener);
+
+	public static synchronized void register(BroadcastListener listener, String username) {
+		//listeners.add(listener);
+		listeners.put(listener, username);
 	}
 
 	public static synchronized void unregister(BroadcastListener listener) {
@@ -33,11 +38,22 @@ public class Broadcaster implements Serializable {
 	}
 	
 	public static synchronized void broadcast(final String message) {
-		for (final BroadcastListener listener : listeners)
+		for (final BroadcastListener listener : listeners.keySet())
 			executorService.execute(new Runnable() {
 				@Override
 				public void run() {
 					listener.receiveBroadcast(message);
+				}
+			});
+	}
+	
+	public static synchronized void whisper(final String message, String username, String username2) {
+		for (final Entry<BroadcastListener, String> listener : listeners.entrySet())
+			if(listener.getValue().equals(username) || listener.getValue().equals(username2))
+			executorService.execute(new Runnable() {
+				@Override
+				public void run() {
+					listener.getKey().receiveBroadcast(message);
 				}
 			});
 	}
@@ -59,7 +75,7 @@ public class Broadcaster implements Serializable {
 				}
 			}
 		}
-		for (final BroadcastListener listener : listeners)
+		for (final BroadcastListener listener : listeners.keySet())
 			executorService.execute(new Runnable() {
 				@Override
 				public void run() {
