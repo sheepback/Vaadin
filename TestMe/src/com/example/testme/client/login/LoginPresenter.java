@@ -46,8 +46,12 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 	public void enter(ViewChangeEvent event) {
 		getUI().getPage().setTitle("Login");
 		//DIREKT ZUGRIFF, DA ENTWICKLER
-		if(Page.getCurrent().getWebBrowser().getAddress().equals("0:0:0:0:0:0:0:1") || Page.getCurrent().getWebBrowser().getAddress().equals("127.0.0.1")){
-			String username = "admin";
+		String adminIP = Page.getCurrent().getWebBrowser().getAddress();
+		if(adminIP.equals("0:0:0:0:0:0:0:1") || adminIP.equals("127.0.0.1")){
+			String username = "AdminInDaHouse";
+			if(adminIP.equals("127.0.0.1")){
+				username = "ThereIsNoBetterAdmin";
+			}
 			getSession().setAttribute("user", username);
 			logger.log(Level.INFO,"Logge "+username+" ein");
 			// Navigate to main view

@@ -34,6 +34,10 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 
 	public static final String NAME = "";
 	
+	private final String WHITESPACE ="\\s+";
+	
+	private final String[] HELP = new String []{"/h", "/help"}, WHISPER = new String []{"@", "/w "};
+	
 	private Display display;
 	
 	private ChatPresenter cp;
@@ -46,7 +50,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		
 	WebBrowser webBrowser;
 	
-	Logger logger = Logger.getLogger("LobbyPresenter");
+	final Logger logger = Logger.getLogger("LobbyPresenter");
 
 	public LobbyPresenter() {
 		this.display = new LobbyView();
@@ -95,19 +99,45 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 				getUI().getNavigator().navigateTo(NAME);
 			}
 		});
-		
+
 		cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
 			//Send Messages
+			/*
+			 * Cases:
+			 * 1. Help "/h" or "/help"
+			 * 2. WhisperMode with "@"
+			 * 3. WhisperMode with "/w "
+			 * 4. Normal message
+			 */
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(cp.getChatView().getDisplay().getTextField().getValue().startsWith("@")){
-					String[] splitter = cp.getChatView().getDisplay().getTextField().getValue().split("@");
-					splitter=splitter[1].split("\\s+");
-					Broadcaster.whisper(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n", splitter[0], username);
+				String value = cp.getChatView().getDisplay().getTextField().getValue();
+				//1. Help "/h" or "/help"
+				if(value.equals(HELP[0])||value.equals(HELP[1])){
+					cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()
+							+ "################### Commands ####################\n\n"
+							+ "List of commands: \"/h\" or \"/help\"\n"
+							+ "Private message to another client: \"@username message\" or \"/w username message \"\n"
+							+"\n");
 					cp.getChatView().getDisplay().getTextField().clear();
 				}
-				else if(!(cp.getChatView().getDisplay().getTextField().getValue().equals(""))){
-					Broadcaster.broadcast(username+": "+cp.getChatView().getDisplay().getTextField().getValue()+"\n");
+				// 2. WhisperMode with "@"
+				else if(value.startsWith(WHISPER[0])){
+					String[] splitter = value.split(WHISPER[0]);
+					splitter=splitter[1].split(WHITESPACE);
+					Broadcaster.whisper(username+": "+value+"\n", splitter[0], username);
+					cp.getChatView().getDisplay().getTextField().clear();
+				}
+				// 3. WhisperMode with "/w " (there is a blank behind the w!)
+				else if(value.startsWith(WHISPER[1])){
+					String[] splitter = value.split(WHISPER[1]);
+					splitter=splitter[1].split(WHITESPACE);
+					Broadcaster.whisper(username+": "+value+"\n", splitter[0], username);
+					cp.getChatView().getDisplay().getTextField().clear();
+				}
+				// 4. Normal message
+				else if(!(value.equals(""))){
+					Broadcaster.broadcast(username+": "+value+"\n");
 					cp.getChatView().getDisplay().getTextField().clear();
 				}
 			}

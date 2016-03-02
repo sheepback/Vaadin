@@ -1,5 +1,6 @@
 package com.example.testme.server.http;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -23,7 +24,9 @@ public class HttpSessionCollector implements HttpSessionListener {
 	public synchronized void sessionCreated(HttpSessionEvent event) {
 		HttpSession session = event.getSession();
 		sessions.put(session.getId(), session);
-		logger.log(Level.INFO, "Found Session: "+session.getId()+"\nAdded Session, now: "+sessions.size());
+		logger.log(Level.INFO, "Found Session: "+session.getId()
+				+"\nSession Creation Time: "+ new Date(session.getCreationTime())
+				+"\nSessions now: "+sessions.size());
 	}
 
 	@Override
