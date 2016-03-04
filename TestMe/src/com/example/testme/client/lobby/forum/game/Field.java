@@ -19,6 +19,12 @@ public class Field extends Button {
 		this.number = number;
 	}
 	
+	public Field(int number) {
+		super();
+
+		this.number = number;
+	}
+	
 	public int getNumber(){
 		return this.number;
 	}

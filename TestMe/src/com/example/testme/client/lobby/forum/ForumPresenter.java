@@ -24,7 +24,6 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 
 	Display display;
 
-
 	File file;
 
 	Logger logger = Logger.getLogger("ForumPresenter");
@@ -42,16 +41,13 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 
 	@Override
 	public void bind() {
-		for(Field f : display.getDisplay().getFields()){
-			f.addClickListener(new ClickListener(){
-
+		for (Field f : display.getDisplay().getFields()) {
+			f.addClickListener(new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
-					display.getDisplay().setMoney(display.getDisplay().getMoney()+1);
+					display.getDisplay().setMoney(display.getDisplay().getMoney() + 1);
 				}
-				
-			}
-			);
+			});
 		}
 	}
 

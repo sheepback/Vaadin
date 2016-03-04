@@ -13,6 +13,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.Reindeer;
 
 /**
@@ -45,8 +46,9 @@ public class ForumView implements Display, View {
 			viewLayout.setComponentAlignment(hz.get(j), Alignment.MIDDLE_CENTER);
 		}
 		for (int i = 0; i < 12; i++) {
-			fields.add(new Field("", i));
+			fields.add(new Field(i));
 			fields.get(i).setIcon(new ThemeResource("icons/gamepic.png"));
+			fields.get(i).setStyleName(BaseTheme.BUTTON_LINK);
 			if (i < 4) {
 				hz.get(0).addComponent(fields.get(i));
 				hz.get(0).setComponentAlignment(fields.get(i),Alignment.MIDDLE_CENTER);
