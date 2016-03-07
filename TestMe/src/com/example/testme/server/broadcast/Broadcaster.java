@@ -48,14 +48,38 @@ public class Broadcaster implements Serializable {
 	}
 	
 	public static synchronized void whisper(final String message, String username, String username2) {
-		for (final Entry<BroadcastListener, String> listener : listeners.entrySet())
-			if(listener.getValue().equals(username) || listener.getValue().equals(username2))
-			executorService.execute(new Runnable() {
+		boolean sent = false;
+		BroadcastListener l = null;
+		for (final Entry<BroadcastListener, String> listener : listeners.entrySet()){
+			if(listener.getValue().equals(username) || listener.getValue().equals(username2)){
+				//save the user who sent the message to use it later on
+				//for sending him info if the message was delivered
+				if(listener.getValue().equals(username2)){
+					l = listener.getKey();
+				}
+				//send the message
+				executorService.execute(new Runnable() {
 				@Override
 				public void run() {
 					listener.getKey().receiveBroadcast(message);
 				}
 			});
+				//Is the User online? if yes the message can be send
+				if(listener.getValue().equals(username)){
+					sent=true;
+				}
+			}
+		}
+		final BroadcastListener li = l;
+		//if the message couldnt be delivered, notify the user who sent the message
+		if(sent == false)
+			executorService.execute(new Runnable() {
+				@Override
+				public void run() {
+					li.receiveBroadcast("System: Message cannot be delivered! User not found!\n");
+				}
+			});
+		
 	}
 	
 	public static synchronized void broadcast(final String id, final String message, final boolean logged) {
