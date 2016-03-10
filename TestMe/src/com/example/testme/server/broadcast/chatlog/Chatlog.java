@@ -12,6 +12,7 @@ import java.io.File;
 public class Chatlog{
 		
 	public static void logChat(String message){
+		new Thread(() ->{
 		Date date = new Date(); 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -19,7 +20,6 @@ public class Chatlog{
 	    int month = cal.get(Calendar.MONTH)+1;
 	    int day = cal.get(Calendar.DAY_OF_MONTH);
 		final String PATH = "\\Chatlogs\\"+month+"-"+year;
-		new Thread(() ->{
 			try {
 				File dir = new File(PATH);
 				dir.mkdirs();
