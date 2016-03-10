@@ -3,6 +3,7 @@ package com.example.testme.client.lobby;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.example.shared.User;
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
 import com.example.testme.client.lobby.forum.ForumPresenter;
@@ -47,6 +48,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	private String username;
 	
 	private TabSheet tabsheet;
+	
+	private User u;
 		
 	WebBrowser webBrowser;
 	
@@ -71,8 +74,9 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	@Override
 	public void enter(ViewChangeEvent event) {
 		getUI().getPage().setTitle("Lobby");
+		u = (User) getSession().getAttribute("user");
 		// Get the user name from the session
-		String[] user = getSession().getAttribute("user").toString().split("@");
+		String[] user = u.getUsername().split("@");
 		username = user[0];
 		Broadcaster.register(this, username);
 		// And show the username and userInformation
@@ -91,7 +95,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// "Logout" the user
-				logger.log(Level.INFO,"logge "+getSession().getAttribute("user")+" aus...");
+				logger.log(Level.INFO,"logge "+u.getUsername()+" aus...");
 				getSession().setAttribute("user", null);
 				//Broadcast the user logged out
 				Broadcaster.broadcast(getUI().getSession().getSession().getId(),username, false);

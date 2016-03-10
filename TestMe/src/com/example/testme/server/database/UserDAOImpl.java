@@ -3,9 +3,11 @@ package com.example.testme.server.database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.example.shared.User;
 import com.example.testme.server.database.exceptions.UserNotFoundException;
 
 
@@ -32,7 +34,8 @@ public class UserDAOImpl implements UserDAO {
 	 * @throws UserNotFoundException
 	 */
 	@Override
-	public boolean login(String name, String pw) throws UserNotFoundException{
+	public User login(String name, String pw) throws UserNotFoundException{
+		User u = null;
 		Database con = new Database();
 		logger.log(Level.INFO,"Versuche User "+name+" einzuloggen...");
 		try {
@@ -45,18 +48,21 @@ public class UserDAOImpl implements UserDAO {
 			preparedStatement.setString(2, hash);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(resultSet.next() == true){
+				u = new User();
 				logger.log(Level.INFO, "User "+name+" gefunden...");
+				u.setUsername(resultSet.getString("name"));
+				u.setLastLogin(new Date(resultSet.getInt("lastlogin")));
 				resultSet.close();
 				preparedStatement.close();
 				con.closeCon();
-				return true;
-				}
+				return u;
+			}
 			else{
 				logger.log(Level.INFO, name+" nicht gefunden mit diesem Passwort...");
 				resultSet.close();
 				preparedStatement.close();
 				con.closeCon();
-				return false;
+				return u;
 			}
 
 		} catch (SQLException e) {
@@ -66,7 +72,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 		logger.log(Level.INFO, "Something went wrong...");
 		con.closeCon();
-		return false;
+		return u;
 	}
 	
 	@Override

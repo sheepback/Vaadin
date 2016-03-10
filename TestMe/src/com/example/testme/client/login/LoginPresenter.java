@@ -3,6 +3,7 @@ package com.example.testme.client.login;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.example.shared.User;
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.LobbyPresenter;
 import com.example.testme.client.registration.RegistrationPresenter;
@@ -48,14 +49,15 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 		//DIREKT ZUGRIFF, DA ENTWICKLER
 		String adminIP = Page.getCurrent().getWebBrowser().getAddress();
 		if(adminIP.equals("0:0:0:0:0:0:0:1") || adminIP.equals("127.0.0.1")){
-			String username = "AdminInDaHouse";
+			User u = new User();
+			u.setUsername("AdminInDaHouse");
 			if(adminIP.equals("127.0.0.1")){
-				username = "ThereIsNoBetterAdmin";
+				u.setUsername("ThereIsNoBetterAdmin");
 			}
-			getSession().setAttribute("user", username);
-			logger.log(Level.INFO,"Logge "+username+" ein");
+			getSession().setAttribute("user", u);
+			logger.log(Level.INFO,"Logge "+u.getUsername()+" ein");
 			// Navigate to main view
-			Broadcaster.broadcast(getUI().getSession().getSession().getId(),username, true);
+			Broadcaster.broadcast(getUI().getSession().getSession().getId(),u.getUsername(), true);
 			getUI().getNavigator().navigateTo(LobbyPresenter.NAME);
 		}
 	}
@@ -94,13 +96,14 @@ public class LoginPresenter extends CustomComponent implements Presenter,
 		//
 
 		UserDAOImpl user = new UserDAOImpl();
-		if (user.login(username, password) == true) {
+		User u;
+		if ((u=user.login(username, password)) != null) {
 
 			// Store the current user in the service session
-			getSession().setAttribute("user", username);
-			logger.log(Level.INFO,"Logge "+username+" ein");
+			getSession().setAttribute("user", u);
+			logger.log(Level.INFO,"Logge "+u.getUsername()+" ein\nLetzter Login war am: +"+u.getLastLogin());
 			// Navigate to main view
-			String[] userSession = username.split("@");
+			String[] userSession = u.getUsername().split("@");
 			usernameSession = userSession[0];
 			Broadcaster.broadcast(getUI().getSession().getSession().getId(),usernameSession, true);
 			getUI().getNavigator().navigateTo(LobbyPresenter.NAME);
