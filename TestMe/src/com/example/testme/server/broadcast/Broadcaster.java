@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.example.testme.server.broadcast.chatlog.Chatlog;
+
 /**
  * @author Alexander Thomas
  * @date 17.01.2016
@@ -38,13 +40,15 @@ public class Broadcaster implements Serializable {
 	}
 	
 	public static synchronized void broadcast(final String message) {
-		for (final BroadcastListener listener : listeners.keySet())
+		for (final BroadcastListener listener : listeners.keySet()){
 			executorService.execute(new Runnable() {
 				@Override
 				public void run() {
 					listener.receiveBroadcast(message);
 				}
 			});
+		}
+		Chatlog.logChat(message);
 	}
 	
 	public static synchronized void whisper(final String message, String username, String username2) {
@@ -55,6 +59,7 @@ public class Broadcaster implements Serializable {
 				//save the user who sent the message to use it later on
 				//for sending him info if the message was delivered
 				if(listener.getValue().equals(username2)){
+					Chatlog.logChat(message);
 					l = listener.getKey();
 				}
 				//send the message
