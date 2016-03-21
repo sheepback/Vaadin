@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.io.File;
+
+import com.vaadin.server.VaadinService;
 /**
  * @author Alexander Thomas
  * @date 15:05:40 10.03.2016
@@ -19,7 +21,7 @@ public class Chatlog{
 	    int year = cal.get(Calendar.YEAR);
 	    int month = cal.get(Calendar.MONTH)+1;
 	    int day = cal.get(Calendar.DAY_OF_MONTH);
-		final String PATH = "\\Chatlogs\\"+month+"-"+year;
+		final String PATH = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()+"\\Chatlogs\\"+month+"-"+year;
 			try {
 				File dir = new File(PATH);
 				dir.mkdirs();
