@@ -62,7 +62,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		cp = new ChatPresenter();
 		fp = new ForumPresenter();
 	
-		//add Presenter to TabSheet
+		//add Presenter to TabSheet and the global logout
 		tabsheet = new TabSheet();
 		tabsheet.addTab(display.getDisplay().viewLayout, "Lobby");
 		tabsheet.addTab(cp.getChatView().getDisplay().getViewLayout(),"Chat");
@@ -125,11 +125,9 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 				String value = cp.getChatView().getDisplay().getTextField().getValue();
 				//1. Help "/h" or "/help"
 				if(value.equals(HELP[0])||value.equals(HELP[1])){
-					cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()
-							+ "################### Commands ####################\n\n"
-							+ "List of commands: \"/h\" or \"/help\"\n"
-							+ "Private message to another client: \"@username message\" or \"/w username message \"\n"
-							+"\n");
+					cp.getChatView().getDisplay().addMessage("################### Commands ####################");
+					cp.getChatView().getDisplay().addMessage("List of commands: \"/h\" or \"/help\"");
+					cp.getChatView().getDisplay().addMessage("Private message to another client: \"@username message\" or \"/w username message \"");
 					cp.getChatView().getDisplay().getTextField().clear();
 				}
 				// 2. WhisperMode with "@"
@@ -168,7 +166,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
     		getUI().access(new Runnable() {
     			@Override
     			public void run() {
-    				cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+message);
+    				//cp.getChatView().getDisplay().getTextArea().setValue(cp.getChatView().getDisplay().getTextArea().getValue()+message);
+    				cp.getChatView().getDisplay().addMessage(message);
     			}
     		});
     	}
