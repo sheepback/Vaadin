@@ -4,8 +4,8 @@ import com.example.testme.client.lobby.LobbyPresenter.Display;
 import com.example.testme.client.View;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
@@ -20,7 +20,7 @@ public class LobbyView implements Display, View {
 	Label clientInfo;
 	Label isTouch;
 	Label locale;
-	Button logout;
+	TabSheet logout;
 	Label impr;
 	VerticalLayout viewLayout;
 
@@ -30,9 +30,9 @@ public class LobbyView implements Display, View {
 		clientInfo = new Label();
 		isTouch = new Label();
 		locale = new Label();
-		logout = new Button("Logout");
-		VerticalLayout fields = new VerticalLayout(text, ip, clientInfo, isTouch, locale, logout);
-		fields.setComponentAlignment(logout, Alignment.MIDDLE_CENTER);
+		logout = new TabSheet();
+		VerticalLayout fields = new VerticalLayout(text, ip, clientInfo, isTouch, locale);
+		//fields.setComponentAlignment(logout, Alignment.MIDDLE_CENTER);
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();

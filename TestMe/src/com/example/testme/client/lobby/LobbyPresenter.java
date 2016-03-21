@@ -15,11 +15,12 @@ import com.vaadin.server.Page;
 import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.ui.Transport;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
+import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 
 /**
  * @author Alexander Thomas
@@ -33,6 +34,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		LobbyView getDisplay();
 	}
 
+	// One NAME has to be empty for the Navigator
 	public static final String NAME = "";
 	
 	private final String WHITESPACE ="\\s+";
@@ -65,6 +67,7 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		tabsheet.addTab(display.getDisplay().viewLayout, "Lobby");
 		tabsheet.addTab(cp.getChatView().getDisplay().getViewLayout(),"Chat");
 		tabsheet.addTab(fp.getForumView().getDisplay().getViewLayout(), "Forum");
+		tabsheet.addTab(display.getDisplay().logout, "Logout");
 		tabsheet.setSizeFull();
 		setCompositionRoot(tabsheet);
 		setSizeFull();
@@ -91,9 +94,11 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	}
 	
 	public void bind(){
-		display.getDisplay().logout.addClickListener(new Button.ClickListener() {
+		//LOGOUT through listener
+		tabsheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 			@Override
-			public void buttonClick(ClickEvent event) {
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				if(event.getTabSheet().getSelectedTab().equals(display.getDisplay().logout)){
 				// "Logout" the user
 				logger.log(Level.INFO,"logge "+u.getUsername()+" aus...");
 				getSession().setAttribute("user", null);
@@ -101,9 +106,11 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 				Broadcaster.broadcast(getUI().getSession().getSession().getId(),username, false);
 				// Refresh this view, should redirect to login view
 				getUI().getNavigator().navigateTo(NAME);
+				}
 			}
 		});
-
+		
+		//CHATPresenter
 		cp.getChatView().getDisplay().getSendButton().addClickListener(new ClickListener(){
 			//Send Messages
 			/*
