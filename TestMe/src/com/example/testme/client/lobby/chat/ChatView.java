@@ -84,7 +84,7 @@ public class ChatView implements Display, View{
 	
 	public void addMessage(String msg){
 		this.chatVL.addComponent(new Label(msg));
-		this.chatPanel.setScrollTop(701);
+		this.chatPanel.setScrollTop(999999);
 	}
 	
 	public void addUser(String username){
