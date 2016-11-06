@@ -28,8 +28,15 @@ public class VideoPresenter extends CustomComponent implements Presenter {
 	Display display;
 	
 	public VideoPresenter(){
-		String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()+"/files/names.list";
+		String path = null;
+		try{
+			path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()+"/VAADIN/files/names.list";
+		}
+		catch(Exception e){
+			
+		}
 		List<String> names = FileReader.read(path);
+		
 		Random r = new Random();
 		String name = names.get(r.nextInt(names.size()));
 		List<SearchResult> list = Search.searchVideo(name);
