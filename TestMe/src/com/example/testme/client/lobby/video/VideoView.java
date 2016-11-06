@@ -2,7 +2,6 @@ package com.example.testme.client.lobby.video;
 
 import com.example.testme.client.View;
 import com.example.testme.client.lobby.video.VideoPresenter.Display;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.VerticalLayout;
@@ -16,13 +15,10 @@ public class VideoView implements Display, View {
 
 	VerticalLayout viewLayout;
 
-	public VideoView(String uri) {
+	public VideoView(Embedded e, String uri) {
 		viewLayout = new VerticalLayout();
-		Embedded e = new Embedded(null, new ExternalResource(uri));
-		e.setMimeType("application/x-shockwave-flash");
-		e.setParameter("allowFullScreen", "true");
-		e.setWidth("520px");
-		e.setHeight("465px");
+		e.setWidth("820px");
+		e.setHeight("665px");
 
 		viewLayout.addComponent(e); // Add the component to the window or
 									// layout.

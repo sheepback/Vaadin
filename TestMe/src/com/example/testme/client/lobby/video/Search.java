@@ -29,7 +29,7 @@ import java.util.Properties;
  * @date 06.11.2016
  */
 public class Search {
-
+	String name;
     /**
      * Define a global variable that identifies the name of a file that
      * contains the developer's API key.
@@ -51,9 +51,10 @@ public class Search {
      * @param args command line args.
      */
     
-    Search (){
-    	
+    Search (String name){
+    	this.name=name;
     }
+    
     public List<SearchResult> searchVideo() {
         // Read the developer key from the properties file.
         Properties properties = new Properties();
@@ -123,13 +124,9 @@ public class Search {
     /*
      * Prompt the user to enter a query term and return the user-specified term.
      */
-    private static String getInputQuery() throws IOException {
+    private String getInputQuery() throws IOException {
 
-        String inputQuery = "";
-
-        System.out.print("Please enter a search term: ");
-        BufferedReader bReader = new BufferedReader(new InputStreamReader(System.in));
-        inputQuery = bReader.readLine();
+        String inputQuery = name;
 
         if (inputQuery.length() < 1) {
             // Use the string "YouTube Developers Live" as a default.
@@ -137,41 +134,5 @@ public class Search {
         }
         return inputQuery;
     }
-
-    /*
-     * Prints out all results in the Iterator. For each result, print the
-     * title, video ID, and thumbnail.
-     *
-     * @param iteratorSearchResults Iterator of SearchResults to print
-     *
-     * @param query Search query (String)
-     */
-    private static void prettyPrint(Iterator<SearchResult> iteratorSearchResults, String query) {
-
-        System.out.println("\n=============================================================");
-        System.out.println(
-                "   First " + NUMBER_OF_VIDEOS_RETURNED + " videos for search on \"" + query + "\".");
-        System.out.println("=============================================================\n");
-
-        if (!iteratorSearchResults.hasNext()) {
-            System.out.println(" There aren't any results for your query.");
-        }
-
-        while (iteratorSearchResults.hasNext()) {
-
-            SearchResult singleVideo = iteratorSearchResults.next();
-            ResourceId rId = singleVideo.getId();
-
-            // Confirm that the result represents a video. Otherwise, the
-            // item will not contain a video ID.
-            if (rId.getKind().equals("youtube#video")) {
-                Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getDefault();
-
-                System.out.println(" Video Id" + rId.getVideoId());
-                System.out.println(" Title: " + singleVideo.getSnippet().getTitle());
-                System.out.println(" Thumbnail: " + thumbnail.getUrl());
-                System.out.println("\n-------------------------------------------------------------\n");
-            }
-        }
-    }
+    
 }
