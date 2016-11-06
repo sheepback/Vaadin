@@ -3,9 +3,7 @@ package com.example.testme.client.lobby.video;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ResourceId;
@@ -15,7 +13,6 @@ import com.google.api.services.youtube.model.Thumbnail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
@@ -53,14 +50,19 @@ public class Search {
      *
      * @param args command line args.
      */
-    public static void main(String[] args) {
+    
+    Search (){
+    	
+    }
+    public List<SearchResult> searchVideo() {
         // Read the developer key from the properties file.
         Properties properties = new Properties();
+        properties.setProperty("youtube.apikey", "AIzaSyBTdWBSqs6T1T4ZcyfaKKfOFPFqt-SB6MI");
         try {
-            InputStream in = Search.class.getResourceAsStream("/" + PROPERTIES_FILENAME);
-            properties.load(in);
+            //InputStream in = Search.class.getResourceAsStream(file.getAbsolutePath()+"/"+ PROPERTIES_FILENAME);
+            //properties.load(in);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("There was an error reading " + PROPERTIES_FILENAME + ": " + e.getCause()
                     + " : " + e.getMessage());
             System.exit(1);
@@ -104,7 +106,8 @@ public class Search {
             SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
             if (searchResultList != null) {
-                prettyPrint(searchResultList.iterator(), queryTerm);
+                //prettyPrint(searchResultList.iterator(), queryTerm);
+                return searchResultList;
             }
         } catch (GoogleJsonResponseException e) {
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
@@ -114,6 +117,7 @@ public class Search {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        return null;
     }
 
     /*

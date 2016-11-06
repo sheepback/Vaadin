@@ -16,9 +16,9 @@ public class VideoView implements Display, View {
 
 	VerticalLayout viewLayout;
 
-	public VideoView(String[] uri) {
+	public VideoView(String uri) {
 		viewLayout = new VerticalLayout();
-		Embedded e = new Embedded(null, new ExternalResource(uri[0]));
+		Embedded e = new Embedded(null, new ExternalResource(uri));
 		e.setMimeType("application/x-shockwave-flash");
 		e.setParameter("allowFullScreen", "true");
 		e.setWidth("520px");
