@@ -5,10 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.testme.client.Presenter;
-import com.example.testme.client.lobby.forum.game.Field;
+import com.example.testme.client.lobby.forum.game.*;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 
 /**
@@ -41,14 +39,18 @@ public class ForumPresenter extends CustomComponent implements Presenter {
 
 	@Override
 	public void bind() {
-		for (Field f : display.getDisplay().getFields()) {
-			f.addClickListener(new ClickListener() {
-				@Override
-				public void buttonClick(ClickEvent event) {
-					display.getDisplay().setMoney(display.getDisplay().getMoney() + 1);
-				}
-			});
+		
+		Monster m = new Monster("Kobold", 20, 2, 8, 2);
+		Fighter f = new Fighter("Miriam", 25, 3, 7, 2);
+		Battle b = new Battle(m, f);
+		while (m.getLevel() < 8 && f.getLevel() < 8) {
+			if(f.getLevel()>m.getLevel()){
+				m.setLevel();
+			}
+			b.fightround();
 		}
+		logger.log(Level.INFO, m.toString());
+		logger.log(Level.INFO,f.toString());
 	}
 
 	public Display getForumView() {

@@ -7,6 +7,7 @@ import com.example.shared.User;
 import com.example.testme.client.Presenter;
 import com.example.testme.client.lobby.chat.ChatPresenter;
 import com.example.testme.client.lobby.forum.ForumPresenter;
+import com.example.testme.client.lobby.video.VideoPresenter;
 import com.example.testme.server.broadcast.Broadcaster;
 import com.example.testme.server.broadcast.Broadcaster.BroadcastListener;
 import com.vaadin.annotations.Push;
@@ -47,6 +48,8 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 	
 	private ForumPresenter fp;
 	
+	private VideoPresenter vp;
+	
 	private String username;
 	
 	private TabSheet tabsheet;
@@ -61,12 +64,13 @@ public class LobbyPresenter extends CustomComponent implements Presenter, Broadc
 		this.display = new LobbyView();
 		cp = new ChatPresenter();
 		fp = new ForumPresenter();
-	
+		vp = new VideoPresenter();
 		//add Presenter to TabSheet and the global logout
 		tabsheet = new TabSheet();
 		tabsheet.addTab(display.getDisplay().viewLayout, "Lobby");
 		tabsheet.addTab(cp.getChatView().getDisplay().getViewLayout(),"Chat");
 		tabsheet.addTab(fp.getForumView().getDisplay().getViewLayout(), "Forum");
+		tabsheet.addTab(vp.getVideoView().getDisplay().getViewLayout(), "Video");
 		tabsheet.addTab(display.getDisplay().logout, "Logout");
 		tabsheet.setSizeFull();
 		setCompositionRoot(tabsheet);

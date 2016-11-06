@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User login(String name, String pw) throws UserNotFoundException{
 		User u = null;
-		Database con = new Database();
+		MariaDB con = new MariaDB();
 		logger.log(Level.INFO,"Versuche User "+name+" einzuloggen...");
 		try {
 			String hash = HashFunction.finalHashRead(pw, readSalt(name));
@@ -77,7 +77,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public boolean create(String username, String pw){
-		Database con = new Database();
+		MariaDB con = new MariaDB();
 		try {
 		String hash[] = HashFunction.finalHash(pw);
 		PreparedStatement preparedStatement = con.getCon().prepareStatement("INSERT INTO vaadin.user VALUES (?, ?, ?)");
@@ -103,7 +103,7 @@ public class UserDAOImpl implements UserDAO {
 	private String readSalt(String name){
     	String salt = null;
     	try {
-    		Database con = new Database();
+    		MariaDB con = new MariaDB();
 			PreparedStatement preparedStatement = con
 					.getCon()
 					.prepareStatement(
