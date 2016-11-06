@@ -1,17 +1,14 @@
 package com.example.testme.client.lobby.video;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
+import com.example.shared.FileReader;
 import com.example.testme.client.Presenter;
 import com.google.api.services.youtube.model.SearchResult;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 
@@ -31,14 +28,9 @@ public class VideoPresenter extends CustomComponent implements Presenter {
 	Display display;
 	
 	public VideoPresenter(){
-		List<String> names = new ArrayList<String>();
+		String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()+"/files/names.list";
+		List<String> names = FileReader.read(path);
 		Random r = new Random();
-		try (Stream<String> stream = Files.lines(Paths.get("/files/names.list"))) {
-			stream.forEach(names::add);
-		} 
-		catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		String name = names.get(r.nextInt(names.size()));
 		List<SearchResult> list = Search.searchVideo(name);
 		
