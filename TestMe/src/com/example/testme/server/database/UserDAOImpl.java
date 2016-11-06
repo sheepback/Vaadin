@@ -120,7 +120,7 @@ public class UserDAOImpl implements UserDAO {
 			preparedStatement.close();
 			con.closeCon();
 		} catch(Exception e){
-			logger.log(Level.SEVERE, "SQL ECEPTION " + e.getMessage());
+			logger.log(Level.SEVERE, "SQL EXCEPTION " + e.getMessage());
 			}
     	return salt;
     }
