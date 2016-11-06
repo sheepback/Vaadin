@@ -53,7 +53,7 @@ public class Search {
     public List<SearchResult> searchVideo() {
         // Read the developer key from the properties file.
         Properties properties = new Properties();
-        properties.setProperty("youtube.apikey", "AIzaSyBTdWBSqs6T1T4ZcyfaKKfOFPFqt-SB6MI");
+        properties.setProperty("youtube.apikey", "ENTER-YOUR-KEY-HERE");
         try {
             //InputStream in = Search.class.getResourceAsStream(file.getAbsolutePath()+"/"+ PROPERTIES_FILENAME);
             //properties.load(in);
