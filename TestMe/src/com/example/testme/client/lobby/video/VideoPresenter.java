@@ -1,8 +1,12 @@
 package com.example.testme.client.lobby.video;
 
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import com.example.testme.client.Presenter;
 import com.google.api.services.youtube.model.SearchResult;
@@ -27,9 +31,17 @@ public class VideoPresenter extends CustomComponent implements Presenter {
 	Display display;
 	
 	public VideoPresenter(){
-		Search search = new Search("Die Antwoord");
-		List<SearchResult> list = search.searchVideo();
+		List<String> names = new ArrayList<String>();
 		Random r = new Random();
+		try (Stream<String> stream = Files.lines(Paths.get("/files/names.list"))) {
+			stream.forEach(names::add);
+		} 
+		catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String name = names.get(r.nextInt(names.size()));
+		List<SearchResult> list = Search.searchVideo(name);
+		
 		String uri = list.get(r.nextInt(25)).toString().split("videoId\":\"")[1].split("\"")[0];
 		uri = "https://www.youtube.com/v/"+uri;
 		//String[] uri = "https://www.youtube.com/watch?v=7hCMV9MZM7k".split("watch\\?v=");

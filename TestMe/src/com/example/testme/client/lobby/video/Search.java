@@ -24,7 +24,6 @@ import java.util.Properties;
  * @date 06.11.2016
  */
 public class Search {
-	String name;
     /**
      * Define a global variable that identifies the name of a file that
      * contains the developer's API key.
@@ -46,11 +45,7 @@ public class Search {
      * @param args command line args.
      */
     
-    Search (String name){
-    	this.name=name;
-    }
-    
-    public List<SearchResult> searchVideo() {
+    public static List<SearchResult> searchVideo(String name) {
         // Read the developer key from the properties file.
         Properties properties = new Properties();
         properties.setProperty("youtube.apikey", "ENTER-YOUR-KEY-HERE");
@@ -77,7 +72,7 @@ public class Search {
             }).setApplicationName("youtube-cmdline-search-sample").build();
 
             // Prompt the user to enter a query term.
-            String queryTerm = getInputQuery();
+            String queryTerm = getInputQuery(name);
 
             // Define the API request for retrieving search results.
             YouTube.Search.List search = youtube.search().list("id,snippet");
@@ -119,7 +114,7 @@ public class Search {
     /*
      * Prompt the user to enter a query term and return the user-specified term.
      */
-    private String getInputQuery() throws IOException {
+    private static String getInputQuery(String name) throws IOException {
 
         String inputQuery = name;
 
