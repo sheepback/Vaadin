@@ -39,7 +39,7 @@ public class MariaDB {
 		String db = "vaadin";
 		String driver = "org.mariadb.jdbc.Driver";
 		String user = "root";
-		String pass = "barti";
+		String pass = "****";
 
 		try {
 			Class.forName(driver).newInstance();
