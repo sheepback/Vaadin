@@ -39,7 +39,7 @@ public class Database {
 		String db = "vaadin";
 		String driver = "com.mysql.jdbc.Driver";
 		String user = "root";
-		String pass = "barti";
+		String pass = "****";
 
 		try {
 			Class.forName(driver).newInstance();
